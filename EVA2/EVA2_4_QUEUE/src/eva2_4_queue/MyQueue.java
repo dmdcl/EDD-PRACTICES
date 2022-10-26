@@ -2,102 +2,99 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package eva2_1_lista_simple;
+package eva2_4_queue;
 
 /**
  *
  * @author diego
  */
-public class Lista {
+public class MyQueue {
+    private Node  start;
+    private Node end;
+    private int cont;
 
-    private Nodo start;
-    private Nodo end;
+    public MyQueue(Node start, Node end, int cont) {
+        this.start = start;
+        this.end = end;
+        this.cont = 0;
+    }
 
-    public Lista() {
-        this.start = null;
-        this.end = null;
+    public void clearLista() {
+        start = null;
+        end = null;
     }
 
     public void print() {
         if (start == null) {
             System.out.println("LISTA VACIA");
         } else {
-            Nodo temp = start;
+            Node temp = start;
             while (temp != null) {
                 System.out.print(temp.getValor() + " - ");
                 temp = temp.getNext();
             }
-
         }
     }
-
-    //Metodo para agregar nodo a final de la lista
-    // SOLUCION  1: 0(N)
-    public void add(int valor) {
-        Nodo newNodo = new Nodo(valor);
-
-        if (start == null) {//No hay nodos en la lista
-            start = newNodo;
-            end = newNodo;
-
-        } else { // Existen nodos en la lista.
-            /*
-            Hay que movernos por la lista
-            Usamos un nodo temporal hasta el ultimo nodo de la lista
-             */
- /*Nodo temp = start;
-            while(temp.getNext() != null){
-                temp =  temp.getNext();
-            }
-            temp.setNext(newNodo);*/
-
-            end.setNext(newNodo);
-            end = newNodo;
-        }
-    }
-
+    
     public int lengthList() {
         int cont = 0;
-        Nodo temp = start;
+        Node temp = start;
         while (temp != null) {
             cont++;
             temp = temp.getNext();
         }
         return cont;
     }
-
-    public void addIn(int valor, int pos) throws Exception {
+    
+     public void addIn(int valor, int pos) throws Exception {
         int numNodos = lengthList();
-        //¿que debemos validar?
-        //insertar en una posicion no valida Ej: -1 o posiciones no existentes.
-        //posiciones negativas
-        //posiciones mayores a la cantidad de elementos
         if (pos < 0) {
             throw new Exception("No es posible insertar un elemento en una posicion negativa");
         } else if (pos >= numNodos) {//Posiciones mayores a la cantidad de nodos
             throw new Exception(pos + " No es una posicion valida en la lista");
         } else {
             //Insertar al inicio de la lista
-            Nodo newNodo = new Nodo(valor);
+            Node newNode = new Node(valor);
             if (pos == 0) {
-                newNodo.setNext(start);
-                start = newNodo;
+                newNode.setNext(start);
+                start = newNode;
             } else {
-                Nodo temp = start;
+                Node temp = start;
                 int cont = 0;
                 while (cont < (pos - 1)) {
                     temp = temp.getNext();
                     cont++;
                 }
                 // Y AHORA??
-                newNodo.setNext(temp.getNext());
-                temp.setNext(newNodo);
+                newNode.setNext(temp.getNext());
+                temp.setNext(newNode);
 
             }
         }
     }
+     
+     public void add(int valor) {
+        Node newNode = new Node(valor);
 
-    public void deleteAt(int pos) throws Exception {
+        if (start == null) {//No hay nodos en la lista
+            start = newNode;
+            end = newNode;
+
+        } else { 
+            end.setNext(newNode);
+            //newNode.setNextPrevio(end);
+            end = newNode;
+        }
+    }
+     public boolean voidList() {
+        if (start == null) {
+            return true;
+        } else {
+            return false;
+        }
+     }
+     
+     public void deleteAt(int pos) throws Exception {
         /*int numNodos = lengthList();
         if (pos < 0) {
             throw new Exception("No es posible insertar un elemento en una posicion negativa");
@@ -114,7 +111,7 @@ public class Lista {
             } else if (pos > lengthList()) {
                 throw new Exception(pos + "No es una posicion valida en la lista ");
             } else {
-                Nodo temp = start;
+                Node temp = start;
                 int cont = 0;
                 if (pos == 0) {
                     start = temp.getNext();
@@ -127,18 +124,23 @@ public class Lista {
             }
         }
     }
-
-    public void clearLista() {
-        start = null;
-        end = null;
-    }
-
-    public boolean voidList() {
-        if (start == null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+     
+     public  Integer peek(){
+         //verificar si la lista esta vacia
+         //si no esta vacia, regresar el valor
+         if(voidList()){
+         return null;
+     }else{
+             return start.getValor();
+     } 
 }
- 
+     public Integer poll() throws Exception{
+    if(voidList()){
+         return null;
+     }else{
+             return cont;
+     } 
+     }
+}
+
+
