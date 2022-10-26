@@ -10,7 +10,8 @@ package eva2_6_arbolbinario;
  * @author saeol
  */
 public class Nodo {
-     private int valor;
+
+    private int valor;
     private Nodo derecha;
     private Nodo izquierda;
 
@@ -43,7 +44,6 @@ public class Nodo {
     public void setIzquierda(Nodo izquierda) {
         this.izquierda = izquierda;
     }
-    
 
     public int getValor() {
         return valor;

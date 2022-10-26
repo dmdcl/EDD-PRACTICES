@@ -13,9 +13,13 @@ public class ArbolBinario {
 
     private Nodo root;
 
+    public ArbolBinario() {
+    }
+
     public ArbolBinario(Nodo root) {
         this.root = null;
     }
+
 
     //Méotdo público para el usuario
     public void agregar(int valor) {
@@ -57,7 +61,24 @@ public class ArbolBinario {
             System.out.println("NUMERO REPETIDO");
 
         }
-
+        
     }
+     //IMPRESION DE VALORES:
+        //IN ORDER
+        //IZQ VALOR DER
+        //METODO PUBLICO
+        public void inOrder(){
+            inOrderRecu(root);
+            System.out.println("");
+        }
+        
+        public void inOrderRecu(Nodo nodo){
+            if(nodo != null){
+                inOrderRecu(nodo.getIzquierda());
+                System.out.print(nodo.getValor() + " - ");
+                inOrderRecu(nodo.getDerecha());
+                
+            }
+        }
 
 }
