@@ -1,15 +1,16 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
-package eva2_4_queue;
+package eva2_5_stack;
 
 /**
  *
- * @author diego
+ * @author user
  */
 public class Node {
-    private int valor;
+    private int value;
     private Node next;
     private Node previous;
 
@@ -21,18 +22,18 @@ public class Node {
     }
 
     public Node(int valor) {
-        this.valor = valor;
+        this.value = valor;
         this.next = null;
         this.previous = null;
 
     }
 
-    public int getValor() {
-        return valor;
+    public int getValue() {
+        return value;
     }
 
-    public void setValor(int valor) {
-        this.valor = valor;
+    public void setValue(int value) {
+        this.value = value;
     }
 
     public Node getNext() {
@@ -50,5 +51,4 @@ public class Node {
     public void setPrevious(Node previous) {
         this.previous = previous;
     }
-        
 }

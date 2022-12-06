@@ -18,11 +18,19 @@ public class EVA2_2_TIPOS_DATOS_GENERICOS {
     public static void main(String[] args) throws Exception {
         // TODO code application logic here
         LinkedList<Integer> lista1 = new LinkedList<Integer>();
-        //Lista 1
-        TiposDatosGenericos<Integer> myObject = new TiposDatosGenericos<>();
-        myObject.setValor(100);
-        System.out.println(myObject.getValor());
-
+        lista1.add(100);
+        lista1.add(200);
+        lista1.add(300);
+        lista1.add(400);
+        
+        System.out.println("lista1");
+        
+        TiposDatosGenericos<Integer> miObj = new TiposDatosGenericos<Integer>();
+        miObj.setValor(100);
+        
+        System.out.println(miObj.getValor());
+        
+        LinkedList<String> lista = new LinkedList<String>();
     }
 
 }

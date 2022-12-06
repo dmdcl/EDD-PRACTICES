@@ -7,189 +7,179 @@ package eva2_5_stack;
 
 /**
  *
- * @author saeol
+ * @author user
  */
 public class MyStack {
-     private Nodo inicio;
-    private Nodo fin;
+    private Node start;
+    private Node end;
     private int cont;
 
     //Por default, la lista está vacía
     public MyStack() {
-        this.inicio = null; //No hay nodos en la lista.
-        this.fin = null;
+        this.start = null; //No hay nodos en la lista.
+        this.end = null;
         this.cont = 0;
     }
     
-    public boolean listaVacia(){
-        if(inicio == null)
+    public boolean emptyList(){
+        if(start == null)
            return true;
         else
             return false;
     }
     
-    public void imprimir(){
-        if(listaVacia())
-            System.out.println("La lista está vacía.");
+    public void print(){
+        if(emptyList())
+            System.out.println("La lista se encuentra vacia.");
         else{
-            Nodo temp = inicio;
-            while(temp != null){ //Moverse mientras el siguiente sea distinto de null
-                System.out.print(temp.getValor() + " - ");
-                    temp = temp.getSiguiente();
+            Node temp = start;
+            while(temp != null){
+                System.out.print(temp.getValue() + " - ");
+                    temp = temp.getNext();
             }
         }
     }
     
-    public int tamaLista(){
+    public int lengthList(){
         return this.cont;
     }
     
-    //Agregar un nodo al final de la lista
-    public void agregar(int valor){
-        Nodo nuevoNodo = new Nodo(valor);
+    
+    public void add(int valor){
+        Node newNode = new Node(valor);
         
         //Verificar si hay nodos en la lista
-        if(inicio == null){ //No hay nodos en la lista.
-            inicio = nuevoNodo; 
-            fin = nuevoNodo;
-        }else{ //Hay nodos en la lista.
-            //Hay que moverse por la lista
-            //Usando un nodo tewmporal hasta el último nodo de la lista.
-            fin.setSiguiente(nuevoNodo);
-            nuevoNodo.setPrevio(fin);
-            fin = nuevoNodo;
+        if(start == null){ //No hay nodos en la lista.
+            start = newNode; 
+            end = newNode;
+        }else{ 
+            end.setNext(newNode);
+            newNode.setPrevious(end);
+            end = newNode;
         }
         cont++;
     }
     
-    public void vaciarLista(){
-        inicio = null;
-        fin = null;
+    public void clearList(){
+        start = null;
+        end = null;
         cont = 0;
     }
     
-    public int obtenerValorEn(int pos) throws Exception{
-            int cantNodos = tamaLista();
+    public int getValueIn(int pos) throws Exception{
+            int cantNodes = lengthList();
             int valor = 0;
         //Posición no válida
         //Posiciones negativas
         //Posiciones mayores a la cantidad de elementos
         if(pos < 0) //Posiciones negativas
-            throw new Exception("No puede insertarse un nodo en una posición negativa");
-        else if(pos >= cantNodos)//Posiciones mayores a la cantidad de elementos
+            throw new Exception("No es posible insertar un nodo en una posicion negativa");
+        else if(pos >= cantNodes)//Posiciones mayores a la cantidad de elementos
             throw new Exception(pos + " no es una posición valida en la lista");
         else{
-            if(pos == 0){ //Insetar al inicio de la lista
-                inicio = inicio.getSiguiente();
+            if(pos == 0){ 
+                start = start.getNext();
             }else{
-                Nodo temp = inicio;
+                Node temp = start;
                 int cont = 0;
                 while(cont < pos){
-                     temp = temp.getSiguiente();
+                     temp = temp.getNext();
                      cont++;
                 }
-                valor = temp.getValor();
+                valor = temp.getValue();
             }
         }
             return valor;
     }
     
     public void push(int valor){
-        agregar(valor);
+        add(valor);
     }
     
-    public Integer peek(){ //Peek -> Lee el elemento en la cima
-        //Verificar si la lista está vacía
-        //Si no está vacía, regresar el valor
-        if(listaVacia()){
+    public Integer peek(){ 
+        if(emptyList()){
             return null;
         }else{
-            return fin.getValor();
+            return end.getValue();
         }
     }
     
-    public Integer pop() throws Exception{ //Pop -> Lee y borra el elemento en la cima
-        //Verificar si la lista está vacía
-        //Si no está vacía, regresar el valor
-        if(listaVacia()){
+    public Integer pop() throws Exception{ 
+        if(emptyList()){
             return null;
         }else{
-            int valor = fin.getValor();
-            //Borra el último nodo de la pila
-            borrarEn(tamaLista()-1);
+            int valor = end.getValue();
+            clearIn(lengthList()-1);
             return valor;
         }
     }
     
-    public void insertarEn(int valor, int pos) throws Exception{
-        int cantNodos = tamaLista();
-        //Insertar en una posición no válida
-        //Posiciones negativas
-        //Posiciones mayores a la cantidad de elementos
-        if(pos < 0) //Posiciones negativas
-            throw new Exception("No puede insertarse un nodo en una posición negativa");
-        else if(pos >= cantNodos)//Posiciones mayores a la cantidad de elementos
+    public void addIn(int valor, int pos) throws Exception{
+        int cantNodes = lengthList();
+        if(pos < 0) 
+            throw new Exception("No es posible insertar un nodo en una posicion negativa");
+        else if(pos >= cantNodes)//Posiciones mayores a la cantidad de elementos
             throw new Exception(pos + " no es una posición valida en la lista");
         else{
-            Nodo nuevoNodo = new Nodo(valor);
+            Node newNode = new Node(valor);
             if(pos == 0){ //Insetar al inicio de la lista
-                nuevoNodo.setSiguiente(inicio);
-                inicio.setPrevio(nuevoNodo);
-                inicio = nuevoNodo;
+                newNode.setNext(start);
+                start.setPrevious(newNode);
+                start = newNode;
             }else{
-                Nodo temp = inicio;
+                Node temp = start;
                 int cont = 0;
                 while(cont < pos){
-                     temp = temp.getSiguiente();
+                     temp = temp.getNext();
                      cont++;
-                }//Hacer reconexión
-                nuevoNodo.setSiguiente(temp);
-                nuevoNodo.setPrevio(temp.getPrevio());
-                temp.getPrevio().setSiguiente(nuevoNodo);
-                temp.setPrevio(nuevoNodo);
+             
+                newNode.setNext(temp);
+                newNode.setPrevious(temp.getPrevious());
+                temp.getPrevious().setNext(newNode);
+                temp.setPrevious(newNode);
                 System.out.println("");
             }
         }
         this.cont++;
     }
-    
-    public void borrarEn(int pos) throws Exception{
-            int cantNodos = tamaLista();
+        
+    }
+    public void clearIn(int pos) throws Exception{
+            int cantNodes = lengthList();
         //Borrar en una posición no válida
         //Posiciones negativas
         //Posiciones mayores a la cantidad de elementos
         if (pos < 0) {//Posiciones negativas
             throw new Exception("No puede borrar un nodo en una posición negativa");
-        } else if (pos >= cantNodos) {//BORRAR EN POSICIONES NO VÁLIDAS
+        } else if (pos >= cantNodes) {//BORRAR EN POSICIONES NO VÁLIDAS
             throw new Exception(pos + " no es una posición válida");
         } else {
-            if (cantNodos == 1) {//Borrar el primer nodo
-                vaciarLista();
+            if (cantNodes == 1) {//Borrar el primer nodo
+                clearList();
             } else {
                 //Borrar primer nodo (Listo)
                 //Borrar el intermedio
                 //Borrar el final
                 if (pos == 0) {
-                    inicio = inicio.getSiguiente();
+                    start = start.getNext();
                 } else {
-                    Nodo temp = inicio;
+                    Node temp = start;
                     int cont = 0;
                     while (cont < pos) {
-                        temp = temp.getSiguiente();
+                        temp = temp.getNext();
                         cont++;
                     }
-                    Nodo objSig = temp.getSiguiente();
-                    Nodo objPrev = temp.getPrevio();
-                    temp.setSiguiente(objSig.getSiguiente());
-                    temp.setPrevio(objPrev.getPrevio());
+                    Node objSig = temp.getNext();
+                    Node objPrev = temp.getPrevious();
+                    temp.setNext(objSig.getNext());
+                    temp.setPrevious(objPrev.getPrevious());
 
-                    if (pos == (cantNodos - 1)) {//Reconectar fin
-                        fin = temp;
+                    if (pos == (cantNodes - 1)) {//Reconectar fin
+                        end = temp;
                     }
                 }
                 this.cont--;
             }
         }
     }   
-    
 }

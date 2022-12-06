@@ -7,7 +7,7 @@ package eva2_6_arbolbinario;
 
 /**
  *
- * @author saeol
+ * @author user
  */
 public class Eva2_6_ArbolBinario {
 
@@ -17,15 +17,18 @@ public class Eva2_6_ArbolBinario {
     public static void main(String[] args) {
         // TODO code application logic here
         ArbolBinario arbol =  new ArbolBinario();
-        arbol.agregar(13);
-        arbol.agregar(10);
-        arbol.agregar(18);
-        arbol.agregar(2);
-        arbol.agregar(11);
-        arbol.agregar(17);
-        arbol.agregar(20);
-        arbol.agregar(16);
+        arbol.add(13);
+        arbol.add(10);
+        arbol.add(18);
+        arbol.add(2);
+        arbol.add(11);
+        arbol.add(17);
+        arbol.add(20);
+        arbol.add(16);
+        arbol.add(16);
         arbol.inOrder();
+        arbol.preOrder();
+        arbol.posOrder();
     }
     
 }

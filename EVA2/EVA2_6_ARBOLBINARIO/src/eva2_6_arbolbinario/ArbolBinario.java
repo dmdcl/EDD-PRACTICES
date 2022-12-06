@@ -7,78 +7,81 @@ package eva2_6_arbolbinario;
 
 /**
  *
- * @author saeol
+ * @author user
  */
 public class ArbolBinario {
+private Node root;
 
-    private Nodo root;
-
-    public ArbolBinario() {
-    }
-
-    public ArbolBinario(Nodo root) {
+    public ArbolBinario(Node root) {
         this.root = null;
     }
 
+    ArbolBinario() {
+    }
+    
+    public void add(int valor){
+    if(root == null)
+        root = new Node(valor);
+    else
+        addRecur(valor, root);
+    }
+    
+ 
+    private void addRecur(int value, Node actualNode){
+        Node newNode = new Node(value);
+        if(value < actualNode.getValue()){ //Va a la izquierda
+            if(actualNode.getRight() == null)
+                actualNode.setLeft(newNode);
+            else
+                addRecur(value, actualNode.getLeft());
+        }else if(value > actualNode.getValue()){//Va a la derecha
+            if(actualNode.getRight() == null)
+                actualNode.setRight(newNode);
+            else
+                addRecur(value, actualNode.getRight());
 
-    //Méotdo público para el usuario
-    public void agregar(int valor) {
-        //1 que el nodo recibido es null
-        //arbol vacio
-        if (root == null) {
-            root = new Nodo(valor);
-        } else {
-            agregarRecur(valor, root);
+        }else{
+            System.out.println("¡El elemento esta repetido!");
         }
-        agregarRecur(valor, root);
+    }
+    
+
+    public void inOrder(){
+        inOrderRecu(root);
+        System.out.println("");
     }
 
-    //Méotdo recursivo agregar
-    //Necesita el valor y el nodo actual
-    private void agregarRecur(int valor, Nodo nodoActual) {
-        Nodo nuevo = new Nodo();
-        //2 decidir si va a izq o der 
-        /*
-        Verificar si el lado (nodo es null 
-        si es null. ahi va el valor
-        si no
-        repetir recursion
-         */
-        if (valor < nodoActual.getValor()) {// va a la izq
-            if(nodoActual.getIzquierda() == null)
-                nodoActual.setIzquierda(nuevo);
-            else
-                agregarRecur(valor, nodoActual.getIzquierda());
-
-        } else if (valor > nodoActual.getValor()) {//va a la derech
-             if(nodoActual.getDerecha() == null)
-                nodoActual.setDerecha(nuevo);
-            else
-                agregarRecur(valor, nodoActual.getDerecha());
-
-
-        } else {//igual
-            System.out.println("NUMERO REPETIDO");
-
+    private void inOrderRecu(Node node){
+        if(node != null){
+            inOrderRecu(node.getLeft());
+            System.out.print(node.getValue() + " - ");
+            inOrderRecu(node.getRight());
         }
-        
     }
-     //IMPRESION DE VALORES:
-        //IN ORDER
-        //IZQ VALOR DER
-        //METODO PUBLICO
-        public void inOrder(){
-            inOrderRecu(root);
-            System.out.println("");
+    public void preOrder(){
+        preOrderRecu(root);
+        System.out.println("");
+    }
+ 
+    private void preOrderRecu(Node nodo){
+        if(nodo != null){
+            System.out.print(nodo.getValue() + " - ");
+            preOrderRecu(nodo.getLeft());
+            preOrderRecu(nodo.getRight());
         }
-        
-        public void inOrderRecu(Nodo nodo){
-            if(nodo != null){
-                inOrderRecu(nodo.getIzquierda());
-                System.out.print(nodo.getValor() + " - ");
-                inOrderRecu(nodo.getDerecha());
-                
-            }
-        }
+    }
 
+    public void posOrder(){
+        posOrderRecu(root);
+        System.out.println("");
+    }
+   
+    private void posOrderRecu(Node nodo){
+        if(nodo != null){
+            posOrderRecu(nodo.getLeft());
+            posOrderRecu(nodo.getRight());
+            System.out.print(nodo.getValue() + " - ");
+        }
+    }
+    
 }

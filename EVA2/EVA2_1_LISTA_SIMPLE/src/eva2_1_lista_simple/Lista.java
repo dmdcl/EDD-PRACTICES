@@ -8,137 +8,202 @@ package eva2_1_lista_simple;
  *
  * @author diego
  */
-public class Lista {
-
-    private Nodo start;
-    private Nodo end;
-
-    public Lista() {
-        this.start = null;
+public class Lista {    
+    private Nodo  start; 
+    private Nodo end; 
+    private int cont;
+    
+    
+    public Lista(){
+        this.start = null; // No existen nodos en la lista.
         this.end = null;
+        this.cont = 0; // No hay nodos en la lista.
     }
-
-    public void print() {
-        if (start == null) {
-            System.out.println("LISTA VACIA");
+    
+    // Método que determina si una lista está vacía.
+    public boolean emptyList() {
+        if (start == null) { 
+            return true; // La lista está vacía.
+        } else {
+            return false; // La lista no está vacía.
+        }
+    }
+    
+    // Método que imprime una lista
+    public void printList() {
+        if (emptyList()) {
+            System.out.println("The list is empty.");
         } else {
             Nodo temp = start;
-            while (temp != null) {
-                System.out.print(temp.getValor() + " - ");
-                temp = temp.getNext();
+            // Mover a temp por cada nodo hasta llegar al final.
+            while(temp != null) {
+                System.out.print("[" + temp.getValue() + "] ");
+                temp = temp.getNext(); // Final de la lista
             }
-
         }
+        System.out.println("");
     }
-
-    //Metodo para agregar nodo a final de la lista
-    // SOLUCION  1: 0(N)
-    public void add(int valor) {
-        Nodo newNodo = new Nodo(valor);
-
-        if (start == null) {//No hay nodos en la lista
-            start = newNodo;
-            end = newNodo;
-
-        } else { // Existen nodos en la lista.
+        
+    // Método que agrega un nodo al final de una lista.
+    // Solución 1: O(N)
+    public void add(int value) { // Recibo valor, creo un nodo y lo pongo en una lista.
+        Nodo newNode = new Nodo(value); // Agregar valor a un nodo.
+        
+        // Verificar si hay nodo en la lista.
+        if (start == null) { // No hay nodos en la lista.
+            start = newNode; // Agregamos un nodo a la lista vacía.
+            end = newNode; // front y back se conectan al nuevo nodo.
+        }else{ // Si tenemos nodos en la lista.
             /*
-            Hay que movernos por la lista
-            Usamos un nodo temporal hasta el ultimo nodo de la lista
-             */
- /*Nodo temp = start;
-            while(temp.getNext() != null){
-                temp =  temp.getNext();
+            // Tenemos que movernos por cada nodo hasta
+            // llegar al final de la lista (último nodo) .                       
+            Nodo temp = front;
+            
+            // Mover a temp por cada nodo hasta llegar al final.
+            while(temp.getNext() != null) {
+                temp = temp.getNext(); // Final de la lista.
             }
-            temp.setNext(newNodo);*/
-
-            end.setNext(newNodo);
-            end = newNodo;
+            
+            // Agregar un nuevo nodo al final de la lista.
+            temp.setNext(newNode); */
+                        
+            end.setNext(newNode); // Cambiar direcciones de variables.
+            end = newNode; // Dirección del nuevo nodo se asigna a back.                                   
         }
+        cont++;
     }
-
+    
     public int lengthList() {
-        int cont = 0;
-        Nodo temp = start;
-        while (temp != null) {
+        
+        /*
+        Cada vez que agreguemos o quitemos un nodo, debemos
+        incrementar o decrementar.
+        */
+        
+        /* 
+        int cont = 0; // Contador
+        Nodo temp = front;
+            
+        // Mover a temp por cada nodo hasta llegar al final
+        while(temp != null) {
             cont++;
-            temp = temp.getNext();
-        }
-        return cont;
+            temp = temp.getNext(); // Final de la lista
+        } */
+        return this.cont;
     }
-
-    public void addIn(int valor, int pos) throws Exception {
-        int numNodos = lengthList();
-        //¿que debemos validar?
-        //insertar en una posicion no valida Ej: -1 o posiciones no existentes.
-        //posiciones negativas
-        //posiciones mayores a la cantidad de elementos
-        if (pos < 0) {
-            throw new Exception("No es posible insertar un elemento en una posicion negativa");
-        } else if (pos >= numNodos) {//Posiciones mayores a la cantidad de nodos
-            throw new Exception(pos + " No es una posicion valida en la lista");
+    
+    public void addAt(int valor, int pos) throws Exception {
+        
+        int valueNodes = lengthList();
+        Nodo newNode = new Nodo(valor);
+        
+        /* 
+        Debemos validar:
+        - Insertar en una posición no válida
+        - Posicones negativas
+        - Posiciones mayores a la cantidad de elementos
+        */
+                
+        if (pos < 0) { // Posiciones negativas
+            throw new Exception("You cant add a node at a negative position.");
+        } else if (pos >= valueNodes) { // Posiciones mayores a la cantidad de elementos
+            throw new Exception("The position " + pos + " is not valid on the list.");
         } else {
-            //Insertar al inicio de la lista
-            Nodo newNodo = new Nodo(valor);
-            if (pos == 0) {
-                newNodo.setNext(start);
-                start = newNodo;
+            if (pos == 0) { // Insertar un nodo al inicio de la lista                
+                newNode.setNext(start);
+                start = newNode;
             } else {
                 Nodo temp = start;
                 int cont = 0;
-                while (cont < (pos - 1)) {
+            
+                // Mover a temp por cada nodo hasta llegar al nodo deseado
+                while(cont < (pos - 1)) {                    
                     temp = temp.getNext();
                     cont++;
-                }
-                // Y AHORA??
-                newNodo.setNext(temp.getNext());
-                temp.setNext(newNodo);
-
+                }                                           
+                // Conectar el nuevo nodo en la lista.
+                newNode.setNext(temp.getNext());
+                temp.setNext(newNode);
             }
-        }
+            this.cont++;
+        }        
     }
-
-    public void deleteAt(int pos) throws Exception {
-        /*int numNodos = lengthList();
-        if (pos < 0) {
-            throw new Exception("No es posible insertar un elemento en una posicion negativa");
-        } else if (pos >= numNodos) {//Posiciones mayores a la cantidad de nodos
-            throw new Exception(pos + " No es una posicion valida en la lista");
-        } else {
     
-        }*/
-        if (start == null) {
-            throw new Exception("No se encuentran elementos dentro de la lista, no es posible eliminar elementos ");
-        } else {
-            if (pos < 0) {
-                throw new Exception("No es posible eliminar un elemento en una posicion negativa ");
-            } else if (pos > lengthList()) {
-                throw new Exception(pos + "No es una posicion valida en la lista ");
-            } else {
-                Nodo temp = start;
-                int cont = 0;
-                if (pos == 0) {
-                    start = temp.getNext();
-                } else {
-                    for (int i = 1; i < pos - 1; i++) {
-                        temp = temp.getNext();
-                    }
-                    temp.setNext(temp.getNext().getNext());
-                }
-            }
-        }
-    }
-
-    public void clearLista() {
+    public void clearList() {
         start = null;
         end = null;
+        cont = 0;
     }
-
-    public boolean voidList() {
-        if (start == null) {
-            return true;
+    
+    public void deleteAt(int pos) throws Exception{
+        
+        int valueNodes = lengthList(), cont = 0;       
+        Nodo newNode = new Nodo();
+        Nodo temp = start;
+        
+        /* 
+        Debemos validar:
+        - Insertar en una posición no válida
+        - Posicones negativas
+        - Posiciones mayores a la cantidad de elementos
+        */
+                
+        if (pos < 0) { // Posiciones negativas
+            throw new Exception("You cant add a node at a negative position.");
+        } else if (pos >= valueNodes) { // Posiciones mayores a la cantidad de elementos
+            throw new Exception("The position " + pos + " is not valid on the list.");
         } else {
-            return false;
+            if (valueNodes == 1) {
+                clearList();
+            } else {
+            /*
+            Borrar el primer nodo
+            Borrar el nodo intermedio
+            Borrar el último nodo
+            */
+                if (pos == 0) {
+                    start = start.getNext();
+                } else {                    
+                    // Mover a temp por cada nodo hasta llegar al nodo deseado
+                    while(cont < (pos - 1)) {                    
+                    temp = temp.getNext();
+                    cont++;
+                    }
+                    // Legibilidad en el código
+                    Nodo objNext = temp.getNext();
+                    temp.setNext(objNext.getNext());
+                                        
+                    /*
+                    "." Operador de resferenciación.
+                    Llamada a función -> Valor que regresa
+                    */
+                    if (pos == (valueNodes - 1)) { // Cantidad de nodos menos el nodo que desconectamos
+                        end = temp; // Reconectar a fin
+                    }
+                }
+            }
+            this.cont--;
+        }        
+    }
+       
+    public int getValueAt(int pos) throws Exception {
+        
+        int valueNodes = lengthList(), cont = 0, valor = 0;
+        Nodo temp = start;
+        
+        if (pos < 0) { // Posiciones negativas
+            throw new Exception("You cant add a node at a negative position.");
+        } else if (pos >= valueNodes) { // Posiciones mayores a la cantidad de elementos
+            throw new Exception("The position " + pos + " is not valid on the list.");
+        } else {
+            // Mover a temp por cada nodo hasta llegar al nodo deseado
+            while(cont < pos) {    
+            temp = temp.getNext();
+            cont++;
+            }
+            valor = temp.getValue();
+            System.out.println("The value on the position " + pos + " is: " + valor);
         }
+        return valor;
     }
 }
- 
